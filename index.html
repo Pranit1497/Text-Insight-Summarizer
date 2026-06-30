@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Text Insight Summarizer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+  <nav>
+    <h2>Text Insight Summarizer</h2>
+  </nav>
+
+  <section class="hero">
+    <h1>Python Text Analysis Tool</h1>
+    <p>Analyze text, extract key insights, generate summaries, and calculate content metrics.</p>
+  </section>
+
+  <main>
+
+    <div class="card input-card">
+      <h2>Enter Text</h2>
+
+      <form method="POST">
+        <textarea name="content" placeholder="Paste article, notes, job description, or any text here..." required></textarea>
+        <button type="submit">Analyze Text</button>
+      </form>
+    </div>
+
+    {% if result %}
+      <div class="stats-grid">
+        <div class="stat-card">
+          <p>Word Count</p>
+          <h2>{{ result.word_count }}</h2>
+        </div>
+
+        <div class="stat-card">
+          <p>Sentences</p>
+          <h2>{{ result.sentence_count }}</h2>
+        </div>
+
+        <div class="stat-card">
+          <p>Reading Time</p>
+          <h2>{{ result.reading_time }} min</h2>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Generated Summary</h2>
+        {% for sentence in result.summary %}
+          <p class="summary-line">{{ sentence }}</p>
+        {% endfor %}
+      </div>
+
+      <div class="card">
+        <h2>Detected Keywords</h2>
+
+        {% if result.keywords %}
+          {% for keyword in result.keywords %}
+            <span class="badge">{{ keyword }}</span>
+          {% endfor %}
+        {% else %}
+          <p class="empty">No tracked keywords detected.</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  </main>
+
+</body>
+</html>
